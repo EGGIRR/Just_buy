@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <div class="show" v-if="showBlock">
+  <div class="show" v-if="added">
     <p>Товар успешно добавлен в корзину!</p>
   </div>
 </template>
@@ -46,7 +46,7 @@ export default {
     return {
       products: [],
       productsInCart: [],
-      showBlock: false
+      added: false
     }
 
   },
@@ -66,43 +66,34 @@ export default {
       if (response.ok) {
         const result = await response.json();
         this.products = result.data
-        console.log('Result: ', result)
       } else {
         this.error = "Error";
-        console.error(this.error);
       }
     },
     async addToCart(product) {
       const productId = product.id;
       const url = `https://jurapro.bhuser.ru/api-shop/cart/${productId}`;
       const userToken = localStorage.getItem('userToken');
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${userToken}`
-          }
-        });
-        if (response.ok) {
-          const existingItemIndex = this.productsInCart.find(item => item.id === product.id);
-          if (existingItemIndex) {
-            existingItemIndex.quantity++;
-          } else {
-            this.productsInCart.push({...product, quantity: 1});
-          }
-          const data = await response.json();
-          console.log(data.data.message);
-          this.showBlock = true;
-          setTimeout(() => {
-            this.showBlock = false;
-          }, 2000);
-        } else {
-          console.error("Error when added to cart:", response.statusText);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${userToken}`
         }
-      } catch (error) {
-        console.error("Error when added to cart:", error);
+      });
+      if (response.ok) {
+        const existingItemIndex = this.productsInCart.find(item => item.id === product.id);
+        if (existingItemIndex) {
+          existingItemIndex.quantity++;
+        } else {
+          this.productsInCart.push({...product, quantity: 1});
+        }
+        this.added = true;
+        setTimeout(() => {
+          this.added = false;
+        }, 2000);
       }
+      alert("Added!")
     },
     logout() {
       localStorage.removeItem('userToken');

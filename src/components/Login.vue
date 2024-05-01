@@ -1,8 +1,10 @@
 <template>
   <div>
     <nav>
-      <router-link to="/">Main</router-link> |
-      <router-link to="/registration">Sign up</router-link> |
+      <router-link to="/">Main</router-link>
+      |
+      <router-link to="/registration">Sign up</router-link>
+      |
       <router-link to="/login">Sign in</router-link>
     </nav>
     <h1>Sigh in</h1>
@@ -19,7 +21,7 @@
 
     </div>
     <div class="show-error" v-if="errors">
-      {{ error}}
+      {{ error }}
     </div>
 
   </div>
@@ -54,18 +56,17 @@ export default {
         localStorage.setItem('userToken', userToken.data.user_token);
         this.$router.push('/');
       } else {
-        this.error='Failed login'
-        this.email=''
-        this.password=''
+        this.error = 'Failed login'
+        this.email = ''
+        this.password = ''
         this.errors = true;
         setTimeout(() => {
           this.errors = false;
         }, 3000);
-        console.error('Error:', this.error);
       }
 
     },
-    goBack(){
+    goBack() {
       this.$router.push('/');
     }
 

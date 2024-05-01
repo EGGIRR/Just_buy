@@ -1,7 +1,8 @@
 <template>
   <div>
     <nav>
-      <router-link to="/">Main</router-link> |
+      <router-link to="/">Main</router-link>
+      |
       <router-link to="/registration">Sign up</router-link>
     </nav>
     <h1>Sign up</h1>
@@ -53,17 +54,16 @@ export default {
         this.$router.push('/login');
       } else {
         this.error = "Failed sign up";
-        this.fio=''
-        this.email=''
-        this.password=''
+        this.fio = ''
+        this.email = ''
+        this.password = ''
         this.errors = true;
         setTimeout(() => {
           this.errors = false;
         }, 3000);
-        console.error('Error:', this.error);
       }
     },
-    goBack(){
+    goBack() {
       this.$router.push('/');
     }
 
