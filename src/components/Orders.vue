@@ -15,7 +15,7 @@
         <div><p>Order №{{order.id}}</p></div>
         <div>
           <span>
-          Orders: {{ order.products.join("; ") }}
+          Products: {{ order.products.toString() }}
         </span>
           <p class="price">
             Cost: {{ order.order_price }}rub.
@@ -34,7 +34,7 @@
 export default {
   data() {
     return {
-      Orders:[]
+      Orders:[],
     }
   },
   created() {

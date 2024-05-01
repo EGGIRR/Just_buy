@@ -5,7 +5,7 @@
       |
       <router-link to="/cart">Cart</router-link>
       |
-      <router-link to="/order">My orders</router-link>
+      <router-link to="/orders">My orders</router-link>
     </nav>
     <div>
       <h1>Orders</h1>
@@ -26,11 +26,6 @@
             {{ product.price }}rub.
           </p>
           <div>
-            <div>
-              <button @click="removeQuantity">-</button>
-              <button @click="addQuantity">+</button>
-              <p>In-stock: {{ quantity }}</p>
-            </div>
             <button @click="removeFromCart(product)" type="submit">Delete</button>
           </div>
         </div>
@@ -53,16 +48,10 @@ export default {
     return {
       productsCart: [],
       myOrder: [],
-      quantity: 1,
     };
   },
   created() {
     this.getProductCart();
-  },
-  mounted() {
-    if (localStorage.getItem('quantity')) {
-      this.quantity = JSON.parse(localStorage.getItem('quantity'));
-    }
   },
   methods: {
     async getProductCart() {
@@ -118,9 +107,7 @@ export default {
       });
       if (response.ok) {
         const existingItemIndex = this.myOrder.findIndex(item => item.id === product.id);
-        if (existingItemIndex !== -1 && this.productExists(this.myOrder[existingItemIndex], product)) {
-          this.myOrder[existingItemIndex].quantity++;
-        } else {
+        if (existingItemIndex === -1 || !this.productExists(this.myOrder[existingItemIndex], product)) {
           this.myOrder.push({...product});
         }
         this.$router.push('/orders');
@@ -132,19 +119,6 @@ export default {
     goBack() {
       this.$router.push('/');
     },
-    addQuantity() {
-      this.quantity++;
-      this.save();
-    },
-    removeQuantity() {
-      if (this.quantity > 1) {
-        this.quantity--;
-        this.save();
-      }
-    },
-    save() {
-      localStorage.setItem('quantity', JSON.stringify(this.quantity));
-    }
   }
 }
 </script>
