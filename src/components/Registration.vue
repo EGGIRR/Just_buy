@@ -2,26 +2,25 @@
   <div>
     <nav>
       <router-link to="/">Main</router-link> |
-      <router-link to="/registration">Sign up</router-link> |
-      <router-link to="/login">Sign in</router-link>
+      <router-link to="/registration">Sign up</router-link>
     </nav>
-    <h1>Sigh in</h1>
+    <h1>Sign up</h1>
     <div>
-      <form @submit.prevent="login">
-        <input type="email" v-model="email" placeholder="email">
-        <input type="password" v-model="password" placeholder="Password">
-
+      <form @submit.prevent="register" class="register">
+        <input v-model="fio" placeholder="fio">
+        <input v-model="email" placeholder="email">
+        <input v-model="password" placeholder="Password">
         <div>
           <button @click="goBack">Back</button>
-          <button type="submit">Login</button>
+          <button type="submit">Sign up</button>
         </div>
+
       </form>
 
     </div>
-    <div class="show-error" v-if="errors">
-      {{ error}}
+    <div v-if="errors">
+      {{ error }}
     </div>
-
   </div>
 </template>
 
@@ -29,32 +28,32 @@
 export default {
   data() {
     return {
-
+      fio: '',
       email: '',
       password: '',
       error: '',
-      errors: false
+      errors: ''
     }
   },
   methods: {
-    async login() {
-      const url = "https://jurapro.bhuser.ru/api-shop/login";
+    async register() {
+      const url = "https://jurapro.bhuser.ru/api-shop/signup";
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          fio: this.fio,
           email: this.email,
           password: this.password
         })
       });
       if (response.ok) {
-        const userToken = await response.json();
-        localStorage.setItem('userToken', userToken.data.user_token);
-        this.$router.push('/');
+        this.$router.push('/login');
       } else {
-        this.error='Failed login'
+        this.error = "Failed sign up";
+        this.fio=''
         this.email=''
         this.password=''
         this.errors = true;
@@ -63,7 +62,6 @@ export default {
         }, 3000);
         console.error('Error:', this.error);
       }
-
     },
     goBack(){
       this.$router.push('/');
