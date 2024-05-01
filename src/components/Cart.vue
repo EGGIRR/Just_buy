@@ -39,9 +39,7 @@
       </div>
       <div>
         <button v-if="productsCart.length !== 0" @click="goBack">Back</button>
-        <button v-if="productsCart.length !== 0" @click="addToMyOrder(product)" type="submit">
-          Заказать
-        </button>
+        <button v-if="productsCart.length !== 0" @click="addToMyOrder(product)" type="submit">Order</button>
       </div>
     </div>
   </div>
@@ -125,7 +123,7 @@ export default {
         } else {
           this.myOrder.push({...product});
         }
-        this.$router.push('/order');
+        this.$router.push('/orders');
       }
     },
     productExists(item1, item2) {

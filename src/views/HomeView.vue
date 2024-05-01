@@ -10,13 +10,13 @@
       <span v-if="isAuthenticated">
           <router-link to="/" @click="logout">Sign out</router-link> |
           <router-link to="/cart">Cart</router-link> |
-          <router-link to="/order">My orders</router-link>
+          <router-link to="/orders">My orders</router-link>
         </span>
     </nav>
   </div>
 
   <div>
-    <h1>Каталог товаров</h1>
+    <h1>Product list:</h1>
     <div>
       <div v-for="product in products" :key="product.id">
         <span>
@@ -26,16 +26,16 @@
           <div>
             <span>{{ product.description }}</span>
             <p>{{ product.price }}rub.</p>
-            <button v-if="isAuthenticated" @click="addToCart(product)" type="submit" class="btn">В корзину</button>
+            <button v-if="isAuthenticated" @click="addToCart(product)" type="submit" class="btn">Add to cart</button>
           </div>
         </span>
       </div>
     </div>
   </div>
 
-  <div class="show" v-if="added">
-    <p>Товар успешно добавлен в корзину!</p>
-  </div>
+<!--  <div v-if="added">-->
+<!--    <p>Товар успешно добавлен в корзину!</p>-->
+<!--  </div>-->
 </template>
 
 <script>
