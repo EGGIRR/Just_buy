@@ -39,7 +39,7 @@
 </template>
 
 <script>
-
+import {thisUrl} from "@/utils/api";
 export default {
   name: 'HomeView',
   data() {
@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     async getProduct() {
-      const url = "https://jurapro.bhuser.ru/api-shop/products";
+      const url = thisUrl() + "/products";
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -72,7 +72,7 @@ export default {
     },
     async addToCart(product) {
       const productId = product.id;
-      const url = `https://jurapro.bhuser.ru/api-shop/cart/${productId}`;
+      const url = `url/cart/${productId}`;
       const userToken = localStorage.getItem('userToken');
       const response = await fetch(url, {
         method: "POST",

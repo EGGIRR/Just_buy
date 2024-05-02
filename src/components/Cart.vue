@@ -41,7 +41,7 @@
 </template>
 
 <script>
-
+import {thisUrl} from "@/utils/api";
 export default {
   name: 'Cart',
   data() {
@@ -59,7 +59,7 @@ export default {
       if (!localToken) {
         return;
       }
-      const url = "https://jurapro.bhuser.ru/api-shop/cart";
+      const url = thisUrl() + "/cart";
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -76,13 +76,12 @@ export default {
 
     },
     async removeFromCart(product) {
-
       const userToken = localStorage.getItem('userToken');
       if (!userToken) {
         return;
       }
 
-      const url = `https://jurapro.bhuser.ru/api-shop/cart/${product.id}`;
+      const url = thisUrl() + `/cart/${product.id}`;
       const response = await fetch(url, {
         method: 'DELETE',
         headers: {
@@ -96,7 +95,7 @@ export default {
     },
 
     async addToMyOrder(product) {
-      const url = 'https://jurapro.bhuser.ru/api-shop/order';
+      const url = thisUrl() + '/order';
       const userToken = localStorage.getItem('userToken');
       const response = await fetch(url, {
         method: "POST",

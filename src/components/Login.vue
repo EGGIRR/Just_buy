@@ -12,9 +12,8 @@
       <form @submit.prevent="login">
         <input type="email" v-model="email" placeholder="email">
         <input type="password" v-model="password" placeholder="Password">
-
         <div>
-          <button @click="goBack">Back</button>
+          <button @click="toMain">Back</button>
           <button type="submit">Login</button>
         </div>
       </form>
@@ -28,6 +27,8 @@
 </template>
 
 <script>
+
+import {thisUrl} from "@/utils/api";
 export default {
   data() {
     return {
@@ -40,7 +41,7 @@ export default {
   },
   methods: {
     async login() {
-      const url = "https://jurapro.bhuser.ru/api-shop/login";
+      const url = thisUrl() + "/login";
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -66,7 +67,7 @@ export default {
       }
 
     },
-    goBack() {
+    toMain() {
       this.$router.push('/');
     }
 

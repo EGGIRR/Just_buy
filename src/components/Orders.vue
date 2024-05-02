@@ -24,13 +24,14 @@
       </span>
         </div>
       </div>
-      <button v-if="Orders.length !== 0" @click="goBack">Back</button>
+      <button v-if="Orders.length !== 0" @click="toMain">Back</button>
     </div>
   </div>
 </template>
 
 
 <script >
+import {thisUrl} from "@/utils/api";
 export default {
   data() {
     return {
@@ -46,7 +47,7 @@ export default {
       if(!localToken){
         return;
       }
-      const url = "https://jurapro.bhuser.ru/api-shop/order";
+      const url = thisUrl() + "/order";
       const response = await fetch(url,{
         method: 'GET',
         headers: {
@@ -60,7 +61,7 @@ export default {
         this.Orders = result.data
       }
     },
-    goBack(){
+    toMain(){
       this.$router.push('/');
     },
 

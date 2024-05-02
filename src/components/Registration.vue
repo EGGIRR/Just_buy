@@ -12,7 +12,7 @@
         <input v-model="email" placeholder="email">
         <input v-model="password" placeholder="Password">
         <div>
-          <button @click="goBack">Back</button>
+          <button @click="toMain">Back</button>
           <button type="submit">Sign up</button>
         </div>
 
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import {thisUrl} from "@/utils/api";
 export default {
   data() {
     return {
@@ -38,7 +39,7 @@ export default {
   },
   methods: {
     async register() {
-      const url = "https://jurapro.bhuser.ru/api-shop/signup";
+      const url = thisUrl() + "/signup";
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -63,10 +64,9 @@ export default {
         }, 3000);
       }
     },
-    goBack() {
+    toMain() {
       this.$router.push('/');
     }
-
   }
 }
 </script>
