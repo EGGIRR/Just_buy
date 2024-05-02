@@ -26,11 +26,9 @@
             {{ product.price }}rub.
           </p>
           <div>
-            <div>
-              <button @click="removeQuantity">-</button>
-              <button @click="addQuantity">+</button>
-              <p>Quantitty: {{ quantity }}</p>
-            </div>
+            <button @click="removeFromCart(product)">-</button>
+            <span>{{ product.quantity }}</span>
+            <button @click="incrementQuantity(product)">+</button>
             <button @click="removeFromCart(product)" type="submit">Delete</button>
           </div>
         </div>
@@ -59,11 +57,6 @@ export default {
   created() {
     this.getProductCart();
   },
-  mounted() {
-    if (localStorage.getItem('quantity')) {
-      this.quantity = JSON.parse(localStorage.getItem('quantity'));
-    }
-  },
   methods: {
     async getProductCart() {
       const localToken = localStorage.getItem('userToken');
@@ -77,13 +70,24 @@ export default {
           'Content-Type': 'application/json',
           "Authorization": `Bearer ${localToken}`
         },
-
       });
       if (response.ok) {
         const result = await response.json();
-        this.productsCart = result.data
-      }
+        const productsInCart = {};
 
+        // Create an object to store the products with their quantities
+        result.data.forEach(product => {
+          if (productsInCart[product.product_id]) {
+            productsInCart[product.product_id].quantity++;
+          } else {
+            productsInCart[product.product_id] = { ...product, quantity: 1 };
+          }
+        });
+        console.log(productsInCart);
+
+        // Convert the object back to an array
+        this.productsCart = Object.values(productsInCart);
+      }
     },
     async removeFromCart(product) {
       const userToken = localStorage.getItem('userToken');
@@ -100,6 +104,7 @@ export default {
         }
       });
       if (response.ok) {
+        this.quantity--;
         location.reload();
       }
     },
@@ -115,35 +120,16 @@ export default {
         }
       });
       if (response.ok) {
-        console.log(this.myOrder)
-        const existingItemIndex = this.myOrder.findIndex(item => item.id === product.id);
-        if (existingItemIndex !== -1 && this.productExists(this.myOrder[existingItemIndex], product)) {
-          this.myOrder[existingItemIndex].quantity++;
-        } else {
-          // this.myOrder.push({product});
-        }
-        // this.$router.push('/orders');
+        this.$router.push('/orders');
       }
-    },
-    productExists(item1, item2) {
-      return item1.id === item2.id && item1.name === item2.name && item1.description === item2.description && item1.price === item2.price;
     },
     toMain() {
       this.$router.push('/');
     },
-    addQuantity() {
+    incrementQuantity(product) {
+      console.log(product)
       this.quantity++;
-      this.save();
     },
-    removeQuantity() {
-      if (this.quantity > 1) {
-        this.quantity--;
-        this.save();
-      }
-    },
-    save() {
-      localStorage.setItem('quantity', JSON.stringify(this.quantity));
-    }
-  }
+  },
 }
 </script>

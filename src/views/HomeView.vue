@@ -81,11 +81,11 @@ export default {
         }
       });
       if (response.ok) {
-        const existingItemIndex = this.productsInCart.find(item => item.id === product.id);
-        if (existingItemIndex) {
-          existingItemIndex.quantity++;
+        const existingItemIndex = this.productsInCart.findIndex(item => item.product_id === product.product_id);
+        if (existingItemIndex !== -1) {
+          this.productsInCart[existingItemIndex].quantity++;
         } else {
-          this.productsInCart.push({...product, quantity: 1});
+          this.productsInCart.push({product, quantity: 1});
         }
         this.added = true;
         setTimeout(() => {

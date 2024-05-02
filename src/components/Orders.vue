@@ -32,13 +32,7 @@
 
 <script >
 import {thisUrl} from "@/utils/api";
-import Cart from "./Cart.vue";
 export default {
-  computed: {
-    Cart() {
-      return Cart
-    }
-  },
   data() {
     return {
       Orders:[],

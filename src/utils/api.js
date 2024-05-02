@@ -1,4 +1,4 @@
-const url2 = "http://fmiafhh-m1.wsr.ru/api-shop"
+const url2 = "https://jurapro.bhuser.ru/api-shop"
 
 export const thisUrl = () => {
     return url2
