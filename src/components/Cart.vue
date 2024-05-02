@@ -2,9 +2,7 @@
   <div>
     <nav>
       <router-link to="/">Main</router-link>
-      |
       <router-link to="/cart">Cart</router-link>
-      |
       <router-link to="/orders">My orders</router-link>
     </nav>
     <div>
@@ -73,7 +71,6 @@ export default {
       });
       if (response.ok) {
         const result = await response.json();
-        console.log(result)
         const productsInCart = {};
         result.data.forEach(product => {
           if (productsInCart[product.product_id]) {

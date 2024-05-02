@@ -2,7 +2,6 @@
   <div>
     <nav>
       <router-link to="/">Main</router-link>
-      |
       <router-link to="/registration">Sign up</router-link>
     </nav>
     <h1>Sign up</h1>

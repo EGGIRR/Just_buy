@@ -2,9 +2,7 @@
   <div>
     <nav>
       <router-link to="/">Main</router-link>
-      |
       <router-link to="/registration">Sign up</router-link>
-      |
       <router-link to="/login">Sign in</router-link>
     </nav>
     <h1>Sigh in</h1>

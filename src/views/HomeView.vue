@@ -1,21 +1,20 @@
 <template>
-  <div class="home">
+  <div class="menu">
     <nav>
       <router-link to="/">Main</router-link>
-      |
       <span v-if="!isAuthenticated">
-          <router-link to="/registration">Sing up</router-link> |
+          <router-link to="/registration">Sing up</router-link>
           <router-link to="/login">Sign in</router-link>
         </span>
       <span v-if="isAuthenticated">
-          <router-link to="/" @click="logout">Sign out</router-link> |
-          <router-link to="/cart">Cart</router-link> |
+          <router-link to="/" @click="logout">Sign out</router-link>
+          <router-link to="/cart">Cart</router-link>
           <router-link to="/orders">My orders</router-link>
         </span>
     </nav>
   </div>
 
-  <div>
+  <div class="products">
     <h1>Product list:</h1>
     <div>
       <div v-for="product in products" :key="product.id">
@@ -108,3 +107,35 @@ export default {
 
 }
 </script>
+
+
+<style>
+.menu{
+  width: 350px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 40%;
+  background-color: lightblue;
+  border-radius: 2em;
+  padding-left: 22px;
+  padding-top: 20px;
+}
+.menu > nav{
+  font-size: 24px;
+}
+.menu > nav > a{
+  text-decoration: none;
+  color: black;
+}
+
+.menu > nav > span > a{
+  text-decoration: none;
+  margin-left: 16px;
+  color: black;
+}
+.products{
+  font-size: 24px;
+  width: 540px;
+}
+</style>
