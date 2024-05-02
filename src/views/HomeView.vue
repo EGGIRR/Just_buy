@@ -32,10 +32,9 @@
       </div>
     </div>
   </div>
-
-<!--  <div v-if="added">-->
-<!--    <p>Товар успешно добавлен в корзину!</p>-->
-<!--  </div>-->
+  <div v-if="added">
+    <p>Товар успешно добавлен в корзину!</p>
+  </div>
 </template>
 
 <script>
@@ -72,7 +71,7 @@ export default {
     },
     async addToCart(product) {
       const productId = product.id;
-      const url = `url/cart/${productId}`;
+      const url = thisUrl() + `/cart/${productId}`;
       const userToken = localStorage.getItem('userToken');
       const response = await fetch(url, {
         method: "POST",
@@ -93,7 +92,6 @@ export default {
           this.added = false;
         }, 2000);
       }
-      alert("Added!")
     },
     logout() {
       localStorage.removeItem('userToken');

@@ -26,6 +26,11 @@
             {{ product.price }}rub.
           </p>
           <div>
+            <div>
+              <button @click="removeQuantity">-</button>
+              <button @click="addQuantity">+</button>
+              <p>Quantitty: {{ quantity }}</p>
+            </div>
             <button @click="removeFromCart(product)" type="submit">Delete</button>
           </div>
         </div>
@@ -33,7 +38,7 @@
         </div>
       </div>
       <div>
-        <button v-if="productsCart.length !== 0" @click="goBack">Back</button>
+        <button v-if="productsCart.length !== 0" @click="toMain">Back</button>
         <button v-if="productsCart.length !== 0" @click="addToMyOrder(product)" type="submit">Order</button>
       </div>
     </div>
@@ -48,10 +53,16 @@ export default {
     return {
       productsCart: [],
       myOrder: [],
+      quantity: 1
     };
   },
   created() {
     this.getProductCart();
+  },
+  mounted() {
+    if (localStorage.getItem('quantity')) {
+      this.quantity = JSON.parse(localStorage.getItem('quantity'));
+    }
   },
   methods: {
     async getProductCart() {
@@ -71,7 +82,6 @@ export default {
       if (response.ok) {
         const result = await response.json();
         this.productsCart = result.data
-
       }
 
     },
@@ -105,19 +115,35 @@ export default {
         }
       });
       if (response.ok) {
+        console.log(this.myOrder)
         const existingItemIndex = this.myOrder.findIndex(item => item.id === product.id);
-        if (existingItemIndex === -1 || !this.productExists(this.myOrder[existingItemIndex], product)) {
-          this.myOrder.push({...product});
+        if (existingItemIndex !== -1 && this.productExists(this.myOrder[existingItemIndex], product)) {
+          this.myOrder[existingItemIndex].quantity++;
+        } else {
+          // this.myOrder.push({product});
         }
-        this.$router.push('/orders');
+        // this.$router.push('/orders');
       }
     },
     productExists(item1, item2) {
       return item1.id === item2.id && item1.name === item2.name && item1.description === item2.description && item1.price === item2.price;
     },
-    goBack() {
+    toMain() {
       this.$router.push('/');
     },
+    addQuantity() {
+      this.quantity++;
+      this.save();
+    },
+    removeQuantity() {
+      if (this.quantity > 1) {
+        this.quantity--;
+        this.save();
+      }
+    },
+    save() {
+      localStorage.setItem('quantity', JSON.stringify(this.quantity));
+    }
   }
 }
 </script>

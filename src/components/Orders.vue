@@ -15,7 +15,7 @@
         <div><p>Order №{{order.id}}</p></div>
         <div>
           <span>
-          Products: {{ order.products.toString() }}
+          Products: {{ order.products.length}}
         </span>
           <p class="price">
             Cost: {{ order.order_price }}rub.
@@ -32,7 +32,13 @@
 
 <script >
 import {thisUrl} from "@/utils/api";
+import Cart from "./Cart.vue";
 export default {
+  computed: {
+    Cart() {
+      return Cart
+    }
+  },
   data() {
     return {
       Orders:[],
