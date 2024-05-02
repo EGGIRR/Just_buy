@@ -1,8 +1,10 @@
 <template>
   <div>
     <nav>
-      <router-link to="/">Main</router-link> |
-      <router-link to="/cart">Cart</router-link> |
+      <router-link to="/">Main</router-link>
+      |
+      <router-link to="/cart">Cart</router-link>
+      |
       <router-link to="/orders">My orders</router-link>
     </nav>
     <div>
@@ -12,13 +14,13 @@
       <div>
         <div v-for="order in Orders" :key="order.id">
       <span>
-        <div><p>Order №{{order.id}}</p></div>
+        <div><p>Order №{{ order.id }}</p></div>
         <div>
           <span>
-          Products: {{ order.products.length}}
+          Products: {{ order.products.length }}
         </span>
           <p class="price">
-            Cost: {{ order.order_price }}rub.
+            Total cost: {{ order.order_price }}rub.
           </p>
         </div>
       </span>
@@ -30,25 +32,26 @@
 </template>
 
 
-<script >
+<script>
 import {thisUrl} from "@/utils/api";
+
 export default {
   data() {
     return {
-      Orders:[],
+      Orders: [],
     }
   },
   created() {
     this.getProductOrder();
   },
   methods: {
-    async getProductOrder(){
+    async getProductOrder() {
       const localToken = localStorage.getItem('userToken');
-      if(!localToken){
+      if (!localToken) {
         return;
       }
       const url = thisUrl() + "/order";
-      const response = await fetch(url,{
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +64,7 @@ export default {
         this.Orders = result.data
       }
     },
-    toMain(){
+    toMain() {
       this.$router.push('/');
     },
 

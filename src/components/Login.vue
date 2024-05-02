@@ -29,6 +29,7 @@
 <script>
 
 import {thisUrl} from "@/utils/api";
+
 export default {
   data() {
     return {
@@ -70,7 +71,6 @@ export default {
     toMain() {
       this.$router.push('/');
     }
-
   }
 }
 </script>

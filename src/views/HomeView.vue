@@ -28,17 +28,18 @@
             <p>{{ product.price }}rub.</p>
             <button v-if="isAuthenticated" @click="addToCart(product)" type="submit" class="btn">Add to cart</button>
           </div>
-        </span>
+          <div v-if="added">
+            <p>Added to cart!</p>
+          </div>
+          </span>
       </div>
     </div>
-  </div>
-  <div v-if="added">
-    <p>Товар успешно добавлен в корзину!</p>
   </div>
 </template>
 
 <script>
 import {thisUrl} from "@/utils/api";
+
 export default {
   name: 'HomeView',
   data() {

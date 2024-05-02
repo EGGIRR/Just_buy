@@ -27,6 +27,7 @@
 
 <script>
 import {thisUrl} from "@/utils/api";
+
 export default {
   data() {
     return {

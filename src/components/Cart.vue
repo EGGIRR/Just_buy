@@ -29,7 +29,6 @@
             <button @click="removeFromCart(product)">-</button>
             <span>{{ product.quantity }}</span>
             <button @click="incrementQuantity(product)">+</button>
-            <button @click="removeFromCart(product)" type="submit">Delete</button>
           </div>
         </div>
       </span>
@@ -45,6 +44,7 @@
 
 <script>
 import {thisUrl} from "@/utils/api";
+
 export default {
   name: 'Cart',
   data() {
@@ -73,19 +73,15 @@ export default {
       });
       if (response.ok) {
         const result = await response.json();
+        console.log(result)
         const productsInCart = {};
-
-        // Create an object to store the products with their quantities
         result.data.forEach(product => {
           if (productsInCart[product.product_id]) {
             productsInCart[product.product_id].quantity++;
           } else {
-            productsInCart[product.product_id] = { ...product, quantity: 1 };
+            productsInCart[product.product_id] = {...product, quantity: 1};
           }
         });
-        console.log(productsInCart);
-
-        // Convert the object back to an array
         this.productsCart = Object.values(productsInCart);
       }
     },
@@ -108,6 +104,24 @@ export default {
         location.reload();
       }
     },
+    async incrementQuantity(product) {
+      const userToken = localStorage.getItem('userToken');
+      if (!userToken) {
+        return;
+      }
+      const url = thisUrl() + `/cart/${product.product_id}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+
+          "Authorization": `Bearer ${userToken}`
+        }
+      });
+      if (response.ok) {
+        this.quantity++;
+        location.reload();
+      }
+    },
 
     async addToMyOrder(product) {
       const url = thisUrl() + '/order';
@@ -126,10 +140,7 @@ export default {
     toMain() {
       this.$router.push('/');
     },
-    incrementQuantity(product) {
-      console.log(product)
-      this.quantity++;
-    },
+
   },
 }
 </script>
