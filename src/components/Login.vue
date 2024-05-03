@@ -18,7 +18,7 @@
 
     </div>
     <div class="show-error" v-if="errors">
-      {{ error }}
+      {{ errorsMessage }}
     </div>
 
   </div>
@@ -34,7 +34,7 @@ export default {
 
       email: '',
       password: '',
-      error: '',
+      errorsMessage: [],
       errors: false
     }
   },
@@ -56,13 +56,24 @@ export default {
         localStorage.setItem('userToken', userToken.data.user_token);
         this.$router.push('/');
       } else {
-        this.error = 'Failed login'
+        if(this.email !== ''){
+          this.errorsMessage = []
+          this.errorsMessage.push("Wrong email")
+        }else{
+          this.errorsMessage = []
+          this.errorsMessage.push("Email required")
+        }
+        if(this.password === ''){
+          this.errorsMessage.push("Password required")
+        } else {
+          this.errorsMessage.push("Wrong password")
+        }
         this.email = ''
         this.password = ''
         this.errors = true;
         setTimeout(() => {
           this.errors = false;
-        }, 3000);
+        }, 5000);
       }
 
     },

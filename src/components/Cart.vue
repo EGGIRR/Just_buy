@@ -12,6 +12,7 @@
       </div>
       <div>
         <div v-for="product in productsCart" :key="product.id">
+          <div v-if="product.quantity !== 0">
       <span>
         <div>
           {{ product.name }}
@@ -30,11 +31,12 @@
           </div>
         </div>
       </span>
+          </div>
         </div>
-      </div>
-      <div>
-        <button v-if="productsCart.length !== 0" @click="toMain">Back</button>
-        <button v-if="productsCart.length !== 0" @click="addToMyOrder(product)" type="submit">Order</button>
+        <div>
+          <button v-if="productsCart.length !== 0" @click="toMain">Back</button>
+          <button v-if="productsCart.length !== 0" @click="addToMyOrder(product)" type="submit">Order</button>
+        </div>
       </div>
     </div>
   </div>
@@ -97,8 +99,8 @@ export default {
         }
       });
       if (response.ok) {
-        this.quantity--;
-        location.reload();
+        product.quantity--;
+        product.id++
       }
     },
     async incrementQuantity(product) {
@@ -115,8 +117,7 @@ export default {
         }
       });
       if (response.ok) {
-        this.quantity++;
-        location.reload();
+        product.quantity++
       }
     },
 

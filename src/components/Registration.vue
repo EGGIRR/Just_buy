@@ -16,10 +16,9 @@
         </div>
 
       </form>
-
     </div>
     <div v-if="errors">
-      {{ error }}
+      {{ errorsMessage }}
     </div>
   </div>
 </template>
@@ -33,7 +32,7 @@ export default {
       fio: '',
       email: '',
       password: '',
-      error: '',
+      errorsMessage: [],
       errors: ''
     }
   },
@@ -54,7 +53,20 @@ export default {
       if (response.ok) {
         this.$router.push('/login');
       } else {
-        this.error = "Failed sign up";
+        if(this.fio === ''){
+          this.errorsMessage = []
+          this.errorsMessage.push("FIO required")
+        }
+        if(this.email === ''){
+          this.errorsMessage.push("Email required")
+        }
+        if(this.password === ''){
+          this.errorsMessage.push("Password required")
+        } else if(this.password.length < 6){
+          this.errorsMessage.push("Password should be 6 or more symbols");
+        } else {
+          this.errorsMessage.push("Wrong password")
+        }
         this.fio = ''
         this.email = ''
         this.password = ''
