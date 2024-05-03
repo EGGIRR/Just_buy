@@ -13,9 +13,9 @@
         </span>
     </nav>
   </div>
-
   <div class="products">
     <h1>Product list:</h1>
+    <h1 v-if="loading">Loading...</h1>
     <div>
       <div v-for="product in products" :key="product.id">
         <span>
@@ -45,7 +45,8 @@ export default {
     return {
       products: [],
       productsInCart: [],
-      added: false
+      added: false,
+      loading: false,
     }
 
   },
@@ -54,6 +55,7 @@ export default {
   },
   methods: {
     async getProduct() {
+      this.loading = true;
       const url = thisUrl() + "/products";
       const response = await fetch(url, {
         method: 'GET',
@@ -65,8 +67,7 @@ export default {
       if (response.ok) {
         const result = await response.json();
         this.products = result.data
-      } else {
-        this.error = "Error";
+        this.loading = false;
       }
     },
     async addToCart(product) {
